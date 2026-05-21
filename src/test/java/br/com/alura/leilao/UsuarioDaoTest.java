@@ -57,4 +57,15 @@ public class UsuarioDaoTest {
                 () -> dao.buscarPorUsername("ciclano"));
     }
 
+    @Test
+    public void deveriaRemoverUsuarioCadastrado() {
+
+        Usuario usuario = criarUsuario();
+
+        dao.deletar(usuario);
+
+        assertThrows(NoResultException.class,
+                () -> dao.buscarPorUsername(usuario.getNome()));
+    }
+
 }
