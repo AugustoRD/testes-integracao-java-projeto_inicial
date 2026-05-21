@@ -18,6 +18,8 @@ import br.com.alura.leilao.dao.LeilaoDao;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Usuario;
 import br.com.alura.leilao.util.JPAUtil;
+import br.com.alura.leilao.util.builder.LeilaoBuilder;
+import br.com.alura.leilao.util.builder.UsuarioBuilder;
 
 public class LeilaoDaoTest {
 
@@ -36,19 +38,22 @@ public class LeilaoDaoTest {
         em.getTransaction().rollback();
     }
 
-    private Usuario criarUsuario() {
-        Usuario usuario = new Usuario("fulano", "fulano@email.com", "123456");
-
-        em.persist(usuario);
-        return usuario;
-    }
-
     @Test
     public void deveriaCadastrarLeilao() {
 
-        Usuario usuario = criarUsuario();
+        Usuario usuario = new UsuarioBuilder()
+                .comNome("fulano")
+                .comEmail("fulano@email.com")
+                .comSenha("123456")
+                .criar();
+        em.persist(usuario);
 
-        Leilao leilao = new Leilao("Mochila", new BigDecimal("70"), LocalDate.now(), usuario);
+        Leilao leilao = new LeilaoBuilder()
+                .comNome("Mochila")
+                .comValorInicial("500")
+                .comDataAbertura(LocalDate.now())
+                .comUsuario(usuario)
+                .criar();
 
         leilao = dao.salvar(leilao);
 
@@ -60,9 +65,19 @@ public class LeilaoDaoTest {
     @Test
     public void deveriaAtualizarLeilao() {
 
-        Usuario usuario = criarUsuario();
+        Usuario usuario = new UsuarioBuilder()
+                .comNome("fulano")
+                .comEmail("fulano@email.com")
+                .comSenha("123456")
+                .criar();
+        em.persist(usuario);
 
-        Leilao leilao = new Leilao("Mochila", new BigDecimal("70"), LocalDate.now(), usuario);
+        Leilao leilao = new LeilaoBuilder()
+                .comNome("Mochila")
+                .comValorInicial("500")
+                .comDataAbertura(LocalDate.now())
+                .comUsuario(usuario)
+                .criar();
 
         leilao = dao.salvar(leilao);
 
