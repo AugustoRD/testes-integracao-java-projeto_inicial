@@ -1,4 +1,4 @@
-package br.com.alura.leilao.util.builder;
+package br.com.alura.leilao.integrationTest.util.builder;
 
 import br.com.alura.leilao.model.Usuario;
 

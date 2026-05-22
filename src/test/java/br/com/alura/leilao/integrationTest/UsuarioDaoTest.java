@@ -1,4 +1,4 @@
-package br.com.alura.leilao;
+package br.com.alura.leilao.integrationTest;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,9 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.alura.leilao.dao.UsuarioDao;
+import br.com.alura.leilao.integrationTest.util.JPAUtil;
+import br.com.alura.leilao.integrationTest.util.builder.UsuarioBuilder;
 import br.com.alura.leilao.model.Usuario;
-import br.com.alura.leilao.util.JPAUtil;
-import br.com.alura.leilao.util.builder.UsuarioBuilder;
 
 public class UsuarioDaoTest {
 
