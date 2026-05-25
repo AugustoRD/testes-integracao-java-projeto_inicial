@@ -1,4 +1,4 @@
-package br.com.alura.leilao.automatedTest;
+package br.com.alura.leilao.automatedTest.tests;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
