@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -14,12 +16,24 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class LoginTest {
 
-    @Test
-    public void deveFazerLoginComSucesso() {
+    private WebDriver driver;
 
+    @BeforeEach
+    public void setup() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
-        WebDriver driver = new ChromeDriver(options);
+        this.driver = new ChromeDriver(options);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void deveFazerLoginComSucesso() {
 
         driver.navigate().to("http://localhost:8080/login");
 
@@ -31,14 +45,10 @@ public class LoginTest {
 
         assertEquals("fulano", driver.findElement(By.id("usuario-logado")).getText());
 
-        driver.quit();
     }
 
     @Test
     public void naoDeveriaFazerLoginComDadosInvalidos() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-        WebDriver driver = new ChromeDriver(options);
 
         driver.navigate().to("http://localhost:8080/login");
 
@@ -53,7 +63,13 @@ public class LoginTest {
         assertThrows(NoSuchElementException.class,
                 () -> driver.findElement(By.id("usuario-logado")));
 
-        driver.quit();
+    }
+
+    @Test
+    public void naoDeveriaAcessarPaginaRestritaSemEstarLogado() {
+        this.driver.navigate().to("http://localhost:8080/leiloes/2");
+        assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/login"));
+        assertFalse(driver.getPageSource().contains("Dados do Leilão"));
     }
 
 }
